@@ -2,6 +2,8 @@ const path = require('path')
 const root = __dirname
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const StringReplacePlugin = require('string-replace-webpack-plugin')
 
 module.exports = {
     entry: [
@@ -68,6 +70,17 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /semantic\.css$/,
+                loader: StringReplacePlugin.replace({
+                    replacements: [{
+                        pattern: /https\:\/\/fonts\.googleapis\.com[^\']+/ig,
+                        replacement: function(match, p1, offset, string) {
+                            return 'data:text/css,*{}'
+                        }
+                    }]
+                })
             }
         ]
     },
@@ -76,6 +89,8 @@ module.exports = {
             title: 'gofree',
             template: path.resolve(root, 'src/template.html')
         }),
+        // new ExtractTextPlugin('common.css'),
+        new StringReplacePlugin(),
         new webpack.HotModuleReplacementPlugin(), // 热替换插件
         new webpack.NamedModulesPlugin() // 执行热替换时打印模块名字
     ]
