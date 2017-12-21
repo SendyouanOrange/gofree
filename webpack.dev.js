@@ -2,7 +2,7 @@ const path = require('path')
 const root = __dirname
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const StringReplacePlugin = require('string-replace-webpack-plugin')
 
 module.exports = {
@@ -19,7 +19,8 @@ module.exports = {
     },
     devServer: {
         hot: true, // 激活服务器的HMR
-        contentBase: path.resolve(root, 'dist'),
+        contentBase: './src/',
+        compress: true,
         publicPath: '/',
         port: 8000,
         historyApiFallback: true
@@ -72,10 +73,10 @@ module.exports = {
                 ]
             },
             {
-                test: /semantic\.css$/,
+                test: /semantic\.min\.css$/,
                 loader: StringReplacePlugin.replace({
                     replacements: [{
-                        pattern: /https\:\/\/fonts\.googleapis\.com[^\']+/ig,
+                        pattern: /https\:\/\/fonts\.googleapis\.com/ig,
                         replacement: function(match, p1, offset, string) {
                             return 'data:text/css,*{}'
                         }
@@ -87,9 +88,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'gofree',
-            template: path.resolve(root, 'src/template.html')
+            template: path.resolve(root, 'src/index.html')
         }),
-        // new ExtractTextPlugin('common.css'),
         new StringReplacePlugin(),
         new webpack.HotModuleReplacementPlugin(), // 热替换插件
         new webpack.NamedModulesPlugin() // 执行热替换时打印模块名字
