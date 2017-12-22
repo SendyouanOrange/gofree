@@ -7,6 +7,11 @@ import recline_mock from '../mock/recline-mock.js';
 import BaiduMap from '../components/BaiduMap.js';
 import PlaceDiv from '../components/PlaceDiv.js';
 
+let viewPng = require("../images/view.png");
+let hotelPng = require("../images/hotel.png");
+let resPng = require("../images/res.png");
+let trafficPng = require("../images/traffic.png");
+
 class Recline extends Component {
     constructor(props) {
         super(props);
@@ -78,16 +83,16 @@ class Recline extends Component {
                           var item = points[i];
                           var myIcon;
                           if(item.type == 0){
-                            myIcon = new BMap.Icon("../images/view.png", new BMap.Size(45,45));
+                            myIcon = new BMap.Icon(viewPng, new BMap.Size(45,45));
                           }else if(item.type == 1){
-                            myIcon = new BMap.Icon("../images/hotel.png", new BMap.Size(45,45));
+                            myIcon = new BMap.Icon(hotelPng, new BMap.Size(45,45));
                           }else {
-                            myIcon = new BMap.Icon("../images/res.png", new BMap.Size(45,45));
+                            myIcon = new BMap.Icon(resPng, new BMap.Size(45,45));
                           } 
-                          if(e[i].marker ==null)
-                            e[i].Mm.setIcon(myIcon);
-                          else
-                            e[i].marker.setIcon(myIcon);
+                          // if(e[i].marker ==null)
+                          //   e[i].Mm.setIcon(myIcon);
+                          // else
+                          //   e[i].marker.setIcon(myIcon);
                       }
                     });
                  }}
@@ -103,7 +108,7 @@ class Recline extends Component {
       const line = lines[idx];
       return ( 
         <div className="line_div">
-          <Image src="../images/traffic.png" /> 
+          <Image src={trafficPng} /> 
           <span>{line.fromToName}</span>
           <span>{line.description}</span>
           <Statistic horizontal label='¥' value={line.price} floated='right' color='red' size='tiny'/>

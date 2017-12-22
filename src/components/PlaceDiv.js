@@ -4,6 +4,10 @@ import { Button,Icon,Image,Label,Statistic,Popup,Modal,Grid} from 'semantic-ui-r
 import axios from '../util/axios.js';
 import recline_mock from '../mock/recline-mock.js';
 
+let viewPng = require("../images/view.png");
+let hotelPng = require("../images/hotel.png");
+let resPng = require("../images/res.png");
+
 export default class PlaceDiv extends Component {
 
 	constructor(props) {
@@ -28,11 +32,11 @@ export default class PlaceDiv extends Component {
   renderTypeIcon(type) {
     let iconDom;
     if(type == 0){
-      iconDom = <Image src="../images/view.png" />
+      iconDom = <Image src={viewPng} />
     }else if(type == 1) {
-      iconDom = <Image src="../images/hotel.png"/>
+      iconDom = <Image src={hotelPng}/>
     }else{
-      iconDom = <Image src="../images/res.png"/>
+      iconDom = <Image src={resPng}/>
     }
     return iconDom;
   }
