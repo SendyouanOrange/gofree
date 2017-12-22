@@ -2,8 +2,8 @@ const path = require('path')
 const root = __dirname
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const StringReplacePlugin = require('string-replace-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     resolve: {
@@ -18,21 +18,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: "style-loader"
-                    },
-                    {
-                        loader: "css-loader"
-                    }
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader?minimize']
+                })
             },
             {
-                test: /\.(png|jpg|gif|mp4|ogg|svg)$/,
+                test: /\.(png|jpg|gif|mp4)$/,
                 use: ['file-loader']
             },
             {
-                test: /\.(png|jpg|gif|woff|woff2|ttf|eot)$/,
+                test: /\.(woff|woff2|ttf|eot|ogg|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
@@ -60,6 +56,7 @@ module.exports = {
             title: 'gofree',
             template: path.resolve(root, 'src/index.html')
         }),
-        new StringReplacePlugin()
+        new StringReplacePlugin(),
+        new ExtractTextPlugin('common.css')
     ]
 }

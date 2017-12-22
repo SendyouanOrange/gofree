@@ -78,23 +78,24 @@ class Recline extends Component {
                     driving.search(p[0], p[points.length-1], {
                       waypoints: p.slice(1,points.length-1)
                     });
-                    driving.setMarkersSetCallback(function(e){
-                      for(var i = 0;i<e.length;i++){
-                          var item = points[i];
-                          var myIcon;
-                          if(item.type == 0){
-                            myIcon = new BMap.Icon(viewPng, new BMap.Size(45,45));
-                          }else if(item.type == 1){
-                            myIcon = new BMap.Icon(hotelPng, new BMap.Size(45,45));
-                          }else {
-                            myIcon = new BMap.Icon(resPng, new BMap.Size(45,45));
-                          } 
-                          // if(e[i].marker ==null)
-                          //   e[i].Mm.setIcon(myIcon);
-                          // else
-                          //   e[i].marker.setIcon(myIcon);
-                      }
-                    });
+                    // driving.setMarkersSetCallback(function(e){
+                    //   for(var i = 0;i<e.length;i++){
+                    //       var item = points[i];
+                    //       var myIcon;
+                    //       if(item.type == 0){
+                    //         myIcon = new BMap.Icon(viewPng, new BMap.Size(45,45));
+                    //       }else if(item.type == 1){
+                    //         myIcon = new BMap.Icon(hotelPng, new BMap.Size(45,45));
+                    //       }else {
+                    //         myIcon = new BMap.Icon(resPng, new BMap.Size(45,45));
+                    //       } 
+                    //       console.log("sss",e[i]);
+                    //       if(e[i].marker ==null)
+                    //         e[i].Mm.setIcon(myIcon);
+                    //       else
+                    //         e[i].marker.setIcon(myIcon);
+                    //   }
+                    // });
                  }}
              />
          </div>

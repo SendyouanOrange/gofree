@@ -42,7 +42,7 @@ export default class BaiduMap extends Component {
             const map=new BMap.Map(states.id);
             resolve(map);
         }).catch(err=>{
-            console.log("there's no BMap yet. Waitting ...",err);
+            // console.log("there's no BMap yet. Waitting ...",err);
             return this.timeoutPromise(300).then(()=>{
                 return this.waitUntil(states);
             });
@@ -51,14 +51,14 @@ export default class BaiduMap extends Component {
 
     componentDidMount(){
         this.waitUntil(this.state).then(map=>{
-            console.log(`[+] bmap loaded`,map);
+            // console.log(`[+] bmap loaded`,map);
             this.props.callback(map);
         });
     }
 
     componentWillReceiveProps(nextProps){
         this.waitUntil(this.state).then(map=>{
-            console.log(`[+] bmap loaded`,map);
+            // console.log(`[+] bmap loaded`,map);
             this.props.callback(map);
         });
     }

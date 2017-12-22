@@ -3,8 +3,9 @@ const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const common = require('./webpack.common.js');
-const path = require('path')
-const root = __dirname
+const path = require('path');
+const root = __dirname;
+
 
 module.exports = merge(common, {
   entry: {
@@ -12,11 +13,7 @@ module.exports = merge(common, {
     vendor: [
       'react',
       'react-router-dom',
-      'react-dom',
-      'semantic-ui-react',
-      'semantic-ui-css',
-      'normalize.css',
-      'axios'
+      'react-dom'
     ]
   },
   output: {
