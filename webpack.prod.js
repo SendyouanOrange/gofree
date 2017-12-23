@@ -13,7 +13,11 @@ module.exports = merge(common, {
     vendor: [
       'react',
       'react-router-dom',
-      'react-dom'
+      'react-dom',
+      'react-autosuggest',
+      'react-day-picker',
+      'semantic-ui-react',
+      'axios'
     ]
   },
   output: {

@@ -117,6 +117,7 @@ class Recline extends Component {
         )
     }
 
+    //TODO:价钱也需要更新
     changePlace = (item,idx,mapData,linesData) => {
       const {places,lines,map,mapChangeFlag} = this.state;
       places[idx] = item;
