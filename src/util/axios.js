@@ -8,11 +8,10 @@ axios.defaults.baseURL = "http://localhost:8000";
 // axios.defaults.withCredentials = true;
 
 
-axios.interceptors.request.use((config) => {
-    config.data = qs.stringify(config.data);
-    console.log(config.data);
-    return config;
-});
+// axios.interceptors.request.use((config) => {
+//     config.data = qs.stringify(config.data);
+//     return config;
+// });
 
 
 axios.interceptors.response.use((res) => {
