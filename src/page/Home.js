@@ -8,6 +8,8 @@ import FixedMenu from '../components/FixedMenu.js';
 import Footer from '../components/Footer.js';
 import AutoSuggest from '../components/AutoSuggest.js';
 import VideoModal from '../components/VideoModal.js';
+import LoginModal from '../components/LoginModal.js';
+import RegisterModal from '../components/RegisterModal.js';
 
 import {citys} from '../data/city.js';
 import {MONTHS,WEEKDAYS_LONG,WEEKDAYS_SHORT} from '../data/date.js';
@@ -26,7 +28,9 @@ class Home extends Component {
           formEndDay: undefined,
           formDes: '',
           videoModalOpen: false,
-          videoUrl: ''
+          videoUrl: '',
+          loginModalOpen:false,
+          registerModalOpen:false
         };
     }
 
@@ -36,7 +40,6 @@ class Home extends Component {
 
     handleFormSubmit = () => {
       const {formType,formStartDay,formEndDay,formDes} = this.state;
-      // this.props.history.push('/lines',{ type: formType,start:formStartDay,end:formEndDay,des:formDes });
       let path = {
           pathname: '/lines',
           data:{ type: formType,start:formStartDay,end:formEndDay,des:formDes }
@@ -47,10 +50,26 @@ class Home extends Component {
     handleDesChange = (value) => this.setState({formDes:value})
 
     closeVideoModal = () => this.setState({videoModalOpen:false})
+
+    closeLoginModal = () => this.setState({loginModalOpen:false})
+
+    closeRegisterModal = () => this.setState({registerModalOpen:false})
+
+    loginHandle = (username,password) => {
+        console.log("username",username);
+        console.log("password",password);
+    }
+
+    registerHandle = (username,password,phone,verifyCode) => {
+      console.log("username",username);
+      console.log("password",password);
+      console.log("phone",phone);
+      console.log("verifyCode",verifyCode);
+    }
     
     
     render() {
-        const {visible,activeMenu,formType,videoModalOpen,videoUrl} = this.state
+        const {visible,activeMenu,formType,videoModalOpen,videoUrl,loginModalOpen,registerModalOpen} = this.state
 
 
         return (
@@ -85,8 +104,12 @@ class Home extends Component {
                 <Menu.Item as='a' href="#seg_0" active={activeMenu === 0} index={0} onClick={this.handleItemClick}>旅游定制</Menu.Item>
                 <Menu.Item as='a' href="#seg_1" active={activeMenu === 1} index={1} onClick={this.handleItemClick}>推荐城市</Menu.Item>
                 <Menu.Item position='right'>
-                  <Button as='a' inverted>登录</Button>
-                  <Button as='a' inverted style={{
+                  <Button as='a' inverted onClick={() => {this.setState({
+                    loginModalOpen:true
+                  })}}>登录</Button>
+                  <Button as='a' inverted onClick={() => {this.setState({
+                    registerModalOpen:true
+                  })}} style={{
                 marginLeft: '0.5em'
                   }}>注册</Button>
                 </Menu.Item>
@@ -208,6 +231,10 @@ class Home extends Component {
         </Visibility>
         {/**视频模态框**/}
         {videoModalOpen ? <VideoModal modalOpen={true} videoUrl={videoUrl} closeVideoModal={this.closeVideoModal} />:null}
+        {/**登录模态框**/}
+        {loginModalOpen ? <LoginModal modalOpen={true} closeLoginModal={this.closeLoginModal} loginHandle={this.loginHandle} /> :null}
+        {/**注册模态框**/}
+        {registerModalOpen ? <RegisterModal modalOpen={true} closeRegisterModal={this.closeRegisterModal} registerHandle={this.registerHandle} /> :null}
         <Footer/>
       </div>
         )
