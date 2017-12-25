@@ -21,11 +21,17 @@ export default class LoginModal extends Component {
     this.setState({ modalOpen: false })
   }
 
+  clearWarning = () => {
+    const {username,password} = this.state;
+    this.setState({
+      usernameValid:username === '',
+      passwordValid:password === ''
+    });
+  }
+
   loginHandle = () => {
     const {username,password} = this.state;
     if(username === '' || password === ''){
-      console.log("ssss");
-      console.log(password === '');
         this.setState({
           usernameValid:username === '',
           passwordValid:password === ''
@@ -49,11 +55,17 @@ export default class LoginModal extends Component {
               <Form>
                 <Form.Field required>
                   <label>用户名</label>
-                  <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => this.setState({username:e.target.value})} error={usernameValid}/>
+                  <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => {
+                    this.setState({username:e.target.value});
+                    this.clearWarning();
+                  }} error={usernameValid}/>
                 </Form.Field>
                 <Form.Field required>
                   <label>密码</label>
-                  <Form.Input placeholder='请输入密码' type='password' value={password} onChange={(e) => this.setState({password:e.target.value})} error={passwordValid}/>
+                  <Form.Input placeholder='请输入密码' type='password' value={password} onChange={(e) => {
+                    this.setState({password:e.target.value});
+                    this.clearWarning();
+                  }} error={passwordValid}/>
                 </Form.Field>
               </Form>
           </Modal.Content>

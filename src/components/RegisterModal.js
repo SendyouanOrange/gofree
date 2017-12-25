@@ -28,6 +28,17 @@ export default class RegisterModal extends Component {
     this.setState({ modalOpen: false })
   }
 
+  clearWarning = () => {
+    const {username,password,confirmPassword,phone,verifyCode} = this.state;
+    this.setState({
+      usernameValid:username === '',
+      passwordValid:password === '',
+      passwordConfirmValid: confirmPassword === '',
+      phoneValid: phone === '',
+      verifyCodeValid: verifyCode === ''
+    });
+  }
+
   registerHandle = () => {
     const {username,password,confirmPassword,phone,verifyCode} = this.state;
     if(username === '' || password === ''|| confirmPassword === '' || phone === '' || verifyCode === ''){
@@ -61,24 +72,39 @@ export default class RegisterModal extends Component {
               <Form>
                 <Form.Field required>
                   <label>用户名</label>
-                  <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => this.setState({username:e.target.value})} error={usernameValid}/>
+                  <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => {
+                    this.setState({username:e.target.value});
+                    this.clearWarning();
+                  }} error={usernameValid}/>
                 </Form.Field>
                 <Form.Field required>
                   <label>密码</label>
-                  <Form.Input placeholder='请输入密码' type='password' value={password} onChange={(e) => this.setState({password:e.target.value})} error={passwordValid}/>
+                  <Form.Input placeholder='请输入密码' type='password' value={password} onChange={(e) => {
+                    this.setState({password:e.target.value});
+                    this.clearWarning();
+                  }} error={passwordValid}/>
                 </Form.Field>
                 <Form.Field required>
                   <label>确认密码</label>
-                  <Form.Input placeholder='请重新输入密码' type='password' value={confirmPassword} onChange={(e) => this.setState({confirmPassword:e.target.value})} error={passwordConfirmValid}/>
-                  {passwordWarning ?<p style={{'color':'red','fontSize':'8px'}}>请保持输入的密码一致</p> : null}
+                  <Form.Input placeholder='请重新输入密码' type='password' value={confirmPassword} onBlur={() => this.setState({passwordWarning: password !== confirmPassword })} onChange={(e) =>{
+                     this.setState({confirmPassword:e.target.value});
+                     this.clearWarning();
+                  }} error={passwordConfirmValid}/>
+                  {passwordWarning ?<p style={{'color':'red','fontSize':'8px'}}>请保持输入的密码一致</p> : <p></p>}
                 </Form.Field>
                 <Form.Field required>
                   <label>手机号</label>
-                  <Form.Input placeholder='请输入手机号' type='number' value={phone} onChange={(e) => this.setState({phone:e.target.value})} error={phoneValid}/>
+                  <Form.Input placeholder='请输入手机号' type='number' value={phone} onChange={(e) => {
+                    this.setState({phone:e.target.value});
+                    this.clearWarning();
+                  }} error={phoneValid}/>
                 </Form.Field>
                 <Form.Field required>
                   <label>验证码</label>
-                  <Form.Input placeholder='请输入验证码' value={verifyCode} onChange={(e) => this.setState({verifyCode:e.target.value})} error={verifyCodeValid}/>
+                  <Form.Input placeholder='请输入验证码' value={verifyCode} onChange={(e) => {
+                    this.setState({verifyCode:e.target.value});
+                    this.clearWarning();
+                  }} error={verifyCodeValid}/>
                 </Form.Field>
               </Form>
           </Modal.Content>
