@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import { Button,Icon,Image,Label,Statistic,Popup,Modal,Grid} from 'semantic-ui-react';
 
 import axios from '../util/axios.js';
-import recline_mock from '../mock/recline-mock.js';
+import gofree_mock from '../mock/gofree_mock.js';
 
 let viewPng = require("../images/view.png");
 let hotelPng = require("../images/hotel.png");
@@ -59,18 +59,21 @@ export default class PlaceDiv extends Component {
 
   replaceBtn = (item) => {
     const $this = this;
-    //TODO:get转Post
-    axios.get('/select-replace',{
-        params: {
-          //TODO:参数替换
-          id: 1,placeId:2,index:0
-        }})
-        .then(function(res){
-            const idx = $this.props.idx;
-            const mapData = $this.state.mapDatas[idx];
-            $this.props.changePlace(item,idx,mapData,res.relate_lines);
-            $this.setState({isOpen:false});
-        })
+    axios({
+      method:'post',
+      url:'/select-replace',
+      //TODO:参数替换
+      data:{
+        id: 1,
+        placeId:2,
+        index:0
+      }
+    }).then(function(res){
+        const idx = $this.props.idx;
+        const mapData = $this.state.mapDatas[idx];
+        $this.props.changePlace(item,idx,mapData,res.relate_lines);
+        $this.setState({isOpen:false});
+    })
   }
 
   renderModalPlaceDiv = (item,idx) => {

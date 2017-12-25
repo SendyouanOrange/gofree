@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Menu,Container,Grid,Header,Icon,Image,Label,List,Statistic,Message,Popup} from 'semantic-ui-react';
 import {withRouter,Redirect} from 'react-router-dom';
 import axios from '../util/axios.js';
-import recline_mock from '../mock/recline-mock.js';
+import gofree_mock from '../mock/gofree_mock.js';
 
 import BaiduMap from '../components/BaiduMap.js';
 import PlaceDiv from '../components/PlaceDiv.js';
@@ -143,16 +143,21 @@ class Recline extends Component {
     refreshList = () => {
       const {mapChangeFlag} = this.state;
       const $this = this;
-      //TODO:get改为Post
-      axios.get('/refresh-all', {
-        params: {
-          //TODO:参数替换
-          id: 1,type:0,destination:'杭州',startTime:'2017/12/05',endTime: '2017/12/14'
-        }})
-        .then(function(res){
-          res.mapChangeFlag = mapChangeFlag + 1;
-          $this.setState(res);
-        })
+      axios({
+        method:'post',
+        url:'/refresh-all',
+        //TODO:参数替换
+        data:{
+          id: 1,
+          type:0,
+          destination:'杭州',
+          startTime:'2017/12/05',
+          endTime: '2017/12/14'
+        }
+      }).then(function(res){
+        res.mapChangeFlag = mapChangeFlag + 1;
+        $this.setState(res);
+      })
     }
 
 

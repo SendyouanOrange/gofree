@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button,Modal,Embed,Form,Message} from 'semantic-ui-react'
 import axios from '../util/axios.js';
-import home_mock from '../mock/home-mock.js';
+import gofree_mock from '../mock/gofree_mock.js';
 
 export default class RegisterModal extends Component {
   constructor(props){
@@ -47,14 +47,10 @@ export default class RegisterModal extends Component {
   handleVerifyBtn =() => {
     const {phone} = this.state;
     this.countDown(60);
-    axios.get('/account/veri_sms/api',{
-        params: {
-          //TODO:参数替换
-          phone: '15650785334'
-        }})
-      .then(function(res) {
-        if(res.code == 201) alert("请求异常");
-      });
+    axios.get('/account/veri_sms/api',{params: { phone: phone}})
+    .then(function(res){
+      console.log(res)
+    });
   }
 
   countDown(time) {
@@ -126,7 +122,7 @@ export default class RegisterModal extends Component {
                      this.setState({confirmPassword:e.target.value});
                      this.clearWarning();
                   }} error={passwordConfirmValid}/>
-                  {passwordWarning ?<p style={{'color':'red','fontSize':'8px'}}>请保持输入的密码一致</p> : <p></p>}
+                  {this.state.passwordWarning ?<p style={{'color':'red','fontSize':'8px'}}>请保持输入的密码一致</p> : <p></p>}
                 </Form.Field>
                 <Form.Field required>
                   <label>手机号</label>
@@ -137,7 +133,7 @@ export default class RegisterModal extends Component {
                     const reg = /^1[0-9]{10}$/;
                     this.setState({phoneWarning: !reg.test(phone),verifyBtn:!reg.test(phone) });
                   }}/>
-                  {phoneWarning ?<p style={{'color':'red','fontSize':'8px'}}>请输入有效手机号</p> : <p></p>}
+                  {this.state.phoneWarning ?<p style={{'color':'red','fontSize':'8px'}}>请输入有效手机号</p> : <p></p>}
                 </Form.Field>
                 <Form.Field required>
                   <label>验证码</label>

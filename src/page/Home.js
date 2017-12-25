@@ -4,8 +4,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import {withRouter} from 'react-router-dom'
 import axios from '../util/axios.js';
-// import axios from 'axios';
-import home_mock from '../mock/home-mock.js';
+import gofree_mock from '../mock/gofree_mock.js';
 
 import FixedMenu from '../components/FixedMenu.js';
 import Footer from '../components/Footer.js';
@@ -60,7 +59,6 @@ class Home extends Component {
 
     loginHandle(username,password){
       const $this = this;
-      // axios.post('/account/login/api',{username:'owen',password:'123'})
       axios({
         method: 'post',
         url: '/account/login/api',
@@ -68,26 +66,30 @@ class Home extends Component {
           username:username,
           password:password
         }
-      })      
-      .then(function(res){
+      }).then(function(res){
+        //TODO:登录存入cookie逻辑
         console.log(res);
       })
     }
 
     registerHandle(username,password,phone,verifyCode){
       const $this = this;
-      //TODO: Get改为Post
-      axios.get('/account/register/api', {
-            params: {
-              //TODO:参数替换
-              username:'test',password: 'test',confirm: 'test',phone: '15650785334',veri_code:'sssss',email:''
-            }})
-      .then(function(res){
+      axios({
+        method: 'post',
+        url:'/account/register/api',
+        data: {
+          username: username,
+          password: password,
+          confirm: password,
+          phone: phone,
+          veri_code: verifyCode,
+          email:''
+        }
+      }).then(function(res){
         console.log(res);
       })
     }
-    
-    
+     
     render() {
         const {visible,activeMenu,formType,videoModalOpen,videoUrl,loginModalOpen,registerModalOpen} = this.state
 

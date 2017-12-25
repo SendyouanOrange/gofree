@@ -1,9 +1,10 @@
 import axios from '../util/axios.js';
 import MockAdapter from 'axios-mock-adapter';
 
-var recline_mock = new MockAdapter(axios);
+var gofree_mock = new MockAdapter(axios);
 
-recline_mock.onGet('/get-line').reply(200, {
+gofree_mock.onGet('/get-line').reply(200, {
+  "code":200,
   /**地图数据**/
   "map": {
     "centerP": [
@@ -147,8 +148,8 @@ recline_mock.onGet('/get-line').reply(200, {
   ]
 });
 
-
-recline_mock.onGet('/get-more', { params: { id: 1,placeId:2,index:0 } }).reply(200, {
+gofree_mock.onGet('/get-more').reply(200, {
+  "code":200,
   "places": [
     {
       "placeId": 1,
@@ -260,8 +261,8 @@ recline_mock.onGet('/get-more', { params: { id: 1,placeId:2,index:0 } }).reply(2
   ]
 });
 
-//TODO: 改POST
-recline_mock.onGet('/select-replace', { params: { id: 1,placeId:2,index:0 } }).reply(200,{
+gofree_mock.onPost('/select-replace').reply(200,{
+  "code":200,
   "relate_lines": [
     {
       "fromToName": "西湖 - 杭州酒家（延安路店)ss",
@@ -276,8 +277,8 @@ recline_mock.onGet('/select-replace', { params: { id: 1,placeId:2,index:0 } }).r
   ]
 })
 
-//TODO: 改POST
-recline_mock.onGet('/refresh-all',{ params: {id: 1,type:0,destination:'杭州',startTime:'2017/12/05',endTime: '2017/12/14'}}).reply(200,{
+gofree_mock.onPost('/refresh-all').reply(200,{
+  "code":200,
   /**地图数据**/
   "map": {
     "centerP": [
@@ -421,6 +422,35 @@ recline_mock.onGet('/refresh-all',{ params: {id: 1,type:0,destination:'杭州',s
   ]
 })
 
+//获取短信验证码
+gofree_mock.onGet('/account/veri_sms/api').reply(200, {
+    "code": 200,
+    "msg": "发送成功",
+    "result":[]
+});
+
+//注册
+gofree_mock.onPost('/account/register/api').reply(200,{
+   "code": 200,
+   "msg": "注册成功",
+   "result":[]
+});
+
+//登录
+gofree_mock.onPost('/account/login/api').reply(200,{
+   "code": 200,
+   "msg": '登录成功',
+   "result":[]
+});
+
+//注销
+gofree_mock.onGet('/account/logout').reply(200,{
+  "code": 200,
+    "msg": "账号已注销",
+    "result":[]
+});
 
 
-export default recline_mock;
+
+
+export default gofree_mock;
