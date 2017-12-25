@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Button,Modal,Embed,Form,Message} from 'semantic-ui-react'
+import axios from '../util/axios.js';
+import home_mock from '../mock/home-mock.js';
 
 export default class RegisterModal extends Component {
   constructor(props){
@@ -17,7 +19,10 @@ export default class RegisterModal extends Component {
       passwordConfirmValid: false,
       phoneValid: false,
       verifyCodeValid: false,
-      passwordWarning:false
+      passwordWarning:false,
+      phoneWarning: false,
+      verifyNote: '获取验证码',
+      verifyBtn: true
     }
   }
 
@@ -37,6 +42,37 @@ export default class RegisterModal extends Component {
       phoneValid: phone === '',
       verifyCodeValid: verifyCode === ''
     });
+  }
+
+  handleVerifyBtn =() => {
+    const {phone} = this.state;
+    this.countDown(60);
+    axios.get('/account/veri_sms/api',{
+        params: {
+          //TODO:参数替换
+          phone: '15650785334'
+        }})
+      .then(function(res) {
+        if(res.code == 201) alert("请求异常");
+      });
+  }
+
+  countDown(time) {
+    if (time == 0) {  
+        this.setState({
+          verifyBtn: false,
+          verifyNote: '获取验证码'
+        })  
+    } else {  
+        const $this = this;
+        this.setState({
+          verifyBtn: true,
+          verifyNote: time-- + "s"
+        });
+        setTimeout(function() {  
+            $this.countDown(time)
+        },1000);
+    }  
   }
 
   registerHandle = () => {
@@ -59,7 +95,7 @@ export default class RegisterModal extends Component {
   }
 
   render() {
-    const {modalOpen,username,password,confirmPassword,phone,verifyCode,usernameValid,passwordValid,passwordConfirmValid,phoneValid,verifyCodeValid,passwordWarning} = this.state;
+    const {phoneWarning,verifyNote,verifyBtn,modalOpen,username,password,confirmPassword,phone,verifyCode,usernameValid,passwordValid,passwordConfirmValid,phoneValid,verifyCodeValid,passwordWarning} = this.state;
     return (
       <Modal
         open={modalOpen}
@@ -97,14 +133,21 @@ export default class RegisterModal extends Component {
                   <Form.Input placeholder='请输入手机号' type='number' value={phone} onChange={(e) => {
                     this.setState({phone:e.target.value});
                     this.clearWarning();
-                  }} error={phoneValid}/>
+                  }} error={phoneValid} onBlur={() => {
+                    const reg = /^1[0-9]{10}$/;
+                    this.setState({phoneWarning: !reg.test(phone),verifyBtn:!reg.test(phone) });
+                  }}/>
+                  {phoneWarning ?<p style={{'color':'red','fontSize':'8px'}}>请输入有效手机号</p> : <p></p>}
                 </Form.Field>
                 <Form.Field required>
                   <label>验证码</label>
-                  <Form.Input placeholder='请输入验证码' value={verifyCode} onChange={(e) => {
-                    this.setState({verifyCode:e.target.value});
-                    this.clearWarning();
-                  }} error={verifyCodeValid}/>
+                  <Form.Group widths='equal'>
+                    <Form.Input placeholder='请输入验证码' value={verifyCode} onChange={(e) => {
+                      this.setState({verifyCode:e.target.value});
+                      this.clearWarning();
+                    }} error={verifyCodeValid}/>
+                    <Button color='green' style={{width: '200px'}} disabled={verifyBtn} onClick={this.handleVerifyBtn}>{verifyNote}</Button>
+                  </Form.Group>                  
                 </Form.Field>
               </Form>
           </Modal.Content>

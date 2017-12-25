@@ -2,8 +2,7 @@ import axios from '../util/axios.js';
 import MockAdapter from 'axios-mock-adapter';
 
 var recline_mock = new MockAdapter(axios);
-// 模拟任意GET请求到 /users 
-//reply的参数为 (status, data, headers) 
+
 recline_mock.onGet('/get-line').reply(200, {
   /**地图数据**/
   "map": {

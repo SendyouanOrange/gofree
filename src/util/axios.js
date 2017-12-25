@@ -10,18 +10,19 @@ axios.defaults.baseURL = "http://localhost:8000";
 
 axios.interceptors.request.use((config) => {
     config.data = qs.stringify(config.data);
+    console.log(config.data);
     return config;
 });
 
 
 axios.interceptors.response.use((res) => {
-    // if (res.data.code == '500') {
-    //     Message.error(res.data.error.msg);
-    //     return null;
-    // }
+    if (res.data.code != 200) {
+        alert("请求异常");
+        return null;
+    }
     return res.data;
 }, (error) => {
-    alert("网络异常!");
+	alert("网络异常！");
     return Promise.reject(error);
 });
 
