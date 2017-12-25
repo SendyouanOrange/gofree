@@ -102,7 +102,7 @@ export default class RegisterModal extends Component {
           </Modal.Header>
           <Modal.Content>
               <Form>
-                <Form.Field required>
+                <Form.Field>
                   <label>用户名</label>
                   <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => {
                     this.setState({username:e.target.value});
