@@ -25,7 +25,7 @@ export default class RegisterModal extends Component {
       verifyBtn: true
     }
 
-    gofree_mock.restore();
+    // gofree_mock.restore();
   }
 
   handleOpen = () => this.setState({ modalOpen: true })

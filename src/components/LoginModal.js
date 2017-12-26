@@ -29,7 +29,7 @@ export default class LoginModal extends Component {
     });
   }
 
-  loginHandle = () => {
+  _loginHandle = () => {
     const {username,password} = this.state;
     if(username === '' || password === ''){
         this.setState({
@@ -73,7 +73,7 @@ export default class LoginModal extends Component {
             <Button color='black' onClick={this.handleClose}>
               取消
             </Button>
-            <Button positive icon='checkmark' labelPosition='right' content="登录" onClick={this.loginHandle} />
+            <Button positive icon='checkmark' labelPosition='right' content="登录" onClick={this._loginHandle} />
           </Modal.Actions>
       </Modal>
     )

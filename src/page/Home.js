@@ -35,7 +35,13 @@ class Home extends Component {
           registerModalOpen:false
         };
 
-        gofree_mock.restore();
+        if(window.$wsCache.get('username')) {
+          this.state ={isLogin:true};
+        }else {
+          this.state ={isLogin:false};
+        }
+
+        // gofree_mock.restore();
     }
 
     handleItemClick = (e, { index }) => this.setState({ activeMenu: index })
@@ -59,7 +65,7 @@ class Home extends Component {
 
     closeRegisterModal = () => this.setState({registerModalOpen:false})
 
-    loginHandle(username,password){
+    loginHandle = (username,password) => {
       const $this = this;
       axios({
         method: 'post',
@@ -69,8 +75,13 @@ class Home extends Component {
           password:password
         }
       }).then(function(res){
-        //TODO:登录存入cookie逻辑
-        console.log(res);
+        window.$wsCache.set("username", username, {
+            exp: 60 * 60
+        });
+        $this.setState({
+          loginModalOpen: false,
+          isLogin: true
+        })
       })
     }
 
@@ -91,15 +102,28 @@ class Home extends Component {
         console.log(res);
       })
     }
+
+    handleLoginOut = () => {
+      const $this = this;
+      axios.get('/account/logout').then(function(res){
+        window.$wsCache.delete('username');
+        $this.setState({isLogin:false});
+        $this.props.history.push('/');
+      })
+    }
+
+    handleLogin = () => this.setState({ loginModalOpen:true})
+
+    handleRegister = () => this.setState({registerModalOpen:true})
      
     render() {
-        const {visible,activeMenu,formType,videoModalOpen,videoUrl,loginModalOpen,registerModalOpen} = this.state
-
+        const {isLogin,visible,activeMenu,formType,videoModalOpen,videoUrl,loginModalOpen,registerModalOpen} = this.state
+        
 
         return (
             <div>
         
-        { visible ? <FixedMenu activeMenu={activeMenu}/> : null }
+        { visible ? <FixedMenu activeMenu={activeMenu} isLogin={this.state.isLogin} isInverted={false} handleLogin={this.handleLogin} handleRegister={this.handleRegister} handleLoginOut={this.handleLoginOut}/> : null }
 
         <Visibility
             onBottomPassed={()=>this.setState({
@@ -124,20 +148,7 @@ class Home extends Component {
             className="welcome_div"
             >
             <Container>
-              <Menu inverted pointing secondary size='large' >
-                <Menu.Item as='a' href="#seg_0" active={activeMenu === 0} index={0} onClick={this.handleItemClick}>旅游定制</Menu.Item>
-                <Menu.Item as='a' href="#seg_1" active={activeMenu === 1} index={1} onClick={this.handleItemClick}>推荐城市</Menu.Item>
-                <Menu.Item position='right'>
-                  <Button as='a' inverted onClick={() => {this.setState({
-                    loginModalOpen:true
-                  })}}>登录</Button>
-                  <Button as='a' inverted onClick={() => {this.setState({
-                    registerModalOpen:true
-                  })}} style={{
-                marginLeft: '0.5em'
-                  }}>注册</Button>
-                </Menu.Item>
-              </Menu>
+              <FixedMenu activeMenu={activeMenu} isLogin={this.state.isLogin} isInverted={true} handleLogin={this.handleLogin} handleRegister={this.handleRegister} handleLoginOut={this.handleLoginOut}/>
             </Container>
 
             <Container className="slogan_div" textAlign='left'>

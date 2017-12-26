@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Main';
+import WsCache from 'web-storage-cache';
 
-// Render the main component into the dom
+window.$wsCache = new WsCache();
+
 ReactDOM.render(<App />, document.getElementById('app'));
 
 
