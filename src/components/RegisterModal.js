@@ -24,6 +24,8 @@ export default class RegisterModal extends Component {
       verifyNote: '获取验证码',
       verifyBtn: true
     }
+
+    gofree_mock.restore();
   }
 
   handleOpen = () => this.setState({ modalOpen: true })

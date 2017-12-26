@@ -29,7 +29,8 @@ class Recline extends Component {
           price: 2000,
           places: [],
           lines: [],
-          mapChangeFlag: 0
+          mapChangeFlag: 0,
+          type: ''
         };
     }
 
@@ -37,14 +38,22 @@ class Recline extends Component {
       if(this.props.location.data == null){
         //TODO:重定向注释打开
         // this.props.history.push('/');
+      }else {
+        const {type,start,end,des} = this.props.location.data;
+        this.setState({
+          type:type,
+          start:start,
+          end: end,
+          destination: des
+        });
+        console.log(this.props.location.data);
       }
-
-      console.log(this.props.location.data);
     }
 
     componentDidMount() {
       const $this = this;
-      axios.get('/get-line')
+      const {type,start,end,destination} = this.state;
+      axios.get('/get-line',{params:{type: type,destination:destination,startTime:start,endTime:end}})
             .then(function(response) {
               $this.setState(response);
             });
@@ -141,18 +150,17 @@ class Recline extends Component {
     }
 
     refreshList = () => {
-      const {mapChangeFlag} = this.state;
+      const {mapChangeFlag,id,type,destination,start,end} = this.state;
       const $this = this;
       axios({
         method:'post',
         url:'/refresh-all',
-        //TODO:参数替换
         data:{
-          id: 1,
-          type:0,
-          destination:'杭州',
-          startTime:'2017/12/05',
-          endTime: '2017/12/14'
+          id: id,
+          type:type,
+          destination:destination,
+          startTime:start,
+          endTime: end
         }
       }).then(function(res){
         res.mapChangeFlag = mapChangeFlag + 1;
@@ -193,7 +201,7 @@ class Recline extends Component {
                     <Grid.Column width={9}>
                       {places.map((item,idx) => (
                         <div key={idx}>
-                          <PlaceDiv item={item} idx={idx} changePlace={this.changePlace} refreshList={this.refreshList}/>
+                          <PlaceDiv item={item} idx={idx} orderId={this.state.id} changePlace={this.changePlace} refreshList={this.refreshList}/>
                           {this.renderLine(idx)}
                         </div>     
                       ))}

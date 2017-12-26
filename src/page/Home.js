@@ -34,6 +34,8 @@ class Home extends Component {
           loginModalOpen:false,
           registerModalOpen:false
         };
+
+        gofree_mock.restore();
     }
 
     handleItemClick = (e, { index }) => this.setState({ activeMenu: index })

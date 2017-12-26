@@ -45,8 +45,7 @@ export default class PlaceDiv extends Component {
     const $this = this;
     axios.get('/get-more', {
         params: {
-          //TODO:参数替换
-          id: 1,placeId:2,index:0
+          id: $this.props.orderId,placeId:placeId,index:idx
         }})
         .then(function(res){
           $this.setState({
@@ -57,16 +56,15 @@ export default class PlaceDiv extends Component {
         })
   }
 
-  replaceBtn = (item) => {
+  replaceBtn = (item,idx) => {
     const $this = this;
     axios({
       method:'post',
       url:'/select-replace',
-      //TODO:参数替换
       data:{
-        id: 1,
-        placeId:2,
-        index:0
+        id: $this.props.orderId,
+        placeId:item.placeId,
+        index:idx
       }
     }).then(function(res){
         const idx = $this.props.idx;
@@ -89,7 +87,7 @@ export default class PlaceDiv extends Component {
                     {item.zanNum} 觉得很赞
                   </Label>
                   &nbsp;&nbsp;
-                  <Button color='red' basic circular onClick={this.replaceBtn.bind(this,item)}>
+                  <Button color='red' basic circular onClick={this.replaceBtn.bind(this,item,idx)}>
                       <Icon name='heart' />
                       替换
                   </Button>
