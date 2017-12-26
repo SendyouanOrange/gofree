@@ -3,8 +3,46 @@ import MockAdapter from 'axios-mock-adapter';
 
 var gofree_mock = new MockAdapter(axios);
 
+gofree_mock.onGet('/get-personal-rec-list').reply(200,{
+  "code": 200,
+  "msg": "成功",
+  "rec": [
+    {
+      "id": 1,
+      "name": "西湖",
+      "description": "未到西湖，未到杭州",
+      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
+    },  
+    {
+      "id": 2,
+      "name": "西湖",
+      "description": "未到西湖，未到杭州",
+      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
+    },  
+    {
+      "id": 3,
+      "name": "西湖",
+      "description": "未到西湖，未到杭州",
+      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
+    },
+    {
+      "id": 4,
+      "name": "西湖",
+      "description": "未到西湖，未到杭州",
+      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
+    }
+  ]
+});
+
+gofree_mock.onPost('/post-personal-submit').reply(200,{
+  "code":200,
+  "msg": '提交成功'
+})
+
+
 gofree_mock.onGet('/get-line').reply(200, {
   "code":200,
+  "msg": '',
   /**地图数据**/
   "map": {
     "centerP": [
@@ -150,6 +188,7 @@ gofree_mock.onGet('/get-line').reply(200, {
 
 gofree_mock.onGet('/get-more').reply(200, {
   "code":200,
+  "msg":'',
   "places": [
     {
       "placeId": 1,
@@ -263,6 +302,7 @@ gofree_mock.onGet('/get-more').reply(200, {
 
 gofree_mock.onPost('/select-replace').reply(200,{
   "code":200,
+  "msg":'',
   "relate_lines": [
     {
       "fromToName": "西湖 - 杭州酒家（延安路店)ss",
@@ -279,6 +319,7 @@ gofree_mock.onPost('/select-replace').reply(200,{
 
 gofree_mock.onPost('/refresh-all').reply(200,{
   "code":200,
+  "msg":'',
   /**地图数据**/
   "map": {
     "centerP": [

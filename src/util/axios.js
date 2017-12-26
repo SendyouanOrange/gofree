@@ -16,7 +16,7 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use((res) => {
     if (res.data.code != 200) {
-        alert("请求异常");
+        alert(res.data.msg);
         return null;
     }
     return res.data;

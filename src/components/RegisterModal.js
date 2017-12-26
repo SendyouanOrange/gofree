@@ -3,6 +3,8 @@ import { Button,Modal,Embed,Form,Message} from 'semantic-ui-react'
 import axios from '../util/axios.js';
 import gofree_mock from '../mock/gofree_mock.js';
 
+import PreferencesModal from '../components/PreferencesModal.js';
+
 export default class RegisterModal extends Component {
   constructor(props){
     super(props);
@@ -14,13 +16,13 @@ export default class RegisterModal extends Component {
       confirmPassword: '',
       phone: '',
       verifyCode: '',
-      usernameValid: false,
       passwordValid: false,
       passwordConfirmValid: false,
       phoneValid: false,
       verifyCodeValid: false,
       passwordWarning:false,
       phoneWarning: false,
+      passwordLenWarning: false,
       verifyNote: '获取验证码',
       verifyBtn: true
     }
@@ -36,9 +38,8 @@ export default class RegisterModal extends Component {
   }
 
   clearWarning = () => {
-    const {username,password,confirmPassword,phone,verifyCode} = this.state;
+    const {password,confirmPassword,phone,verifyCode} = this.state;
     this.setState({
-      usernameValid:username === '',
       passwordValid:password === '',
       passwordConfirmValid: confirmPassword === '',
       phoneValid: phone === '',
@@ -75,9 +76,8 @@ export default class RegisterModal extends Component {
 
   registerHandle = () => {
     const {username,password,confirmPassword,phone,verifyCode} = this.state;
-    if(username === '' || password === ''|| confirmPassword === '' || phone === '' || verifyCode === ''){
+    if(password === ''|| confirmPassword === '' || phone === '' || verifyCode === ''){
         this.setState({
-          usernameValid:username === '',
           passwordValid:password === '',
           passwordConfirmValid: confirmPassword === '',
           phoneValid: phone === '',
@@ -86,6 +86,10 @@ export default class RegisterModal extends Component {
     }else if (password != confirmPassword){
       this.setState({
         passwordWarning:true
+      });
+    }else if (password.length < 4){
+      this.setState({
+        passwordLenWarning:true
       });
     }else {
       this.props.registerHandle(username,password,phone,verifyCode);
@@ -104,28 +108,6 @@ export default class RegisterModal extends Component {
           </Modal.Header>
           <Modal.Content>
               <Form>
-                <Form.Field>
-                  <label>用户名</label>
-                  <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => {
-                    this.setState({username:e.target.value});
-                    this.clearWarning();
-                  }} error={usernameValid}/>
-                </Form.Field>
-                <Form.Field required>
-                  <label>密码</label>
-                  <Form.Input placeholder='请输入密码' type='password' value={password} onChange={(e) => {
-                    this.setState({password:e.target.value});
-                    this.clearWarning();
-                  }} error={passwordValid}/>
-                </Form.Field>
-                <Form.Field required>
-                  <label>确认密码</label>
-                  <Form.Input placeholder='请重新输入密码' type='password' value={confirmPassword} onBlur={() => this.setState({passwordWarning: password !== confirmPassword })} onChange={(e) =>{
-                     this.setState({confirmPassword:e.target.value});
-                     this.clearWarning();
-                  }} error={passwordConfirmValid}/>
-                  {this.state.passwordWarning ?<p style={{'color':'red','fontSize':'8px'}}>请保持输入的密码一致</p> : <p></p>}
-                </Form.Field>
                 <Form.Field required>
                   <label>手机号</label>
                   <Form.Input placeholder='请输入手机号' type='number' value={phone} onChange={(e) => {
@@ -147,13 +129,33 @@ export default class RegisterModal extends Component {
                     <Button color='green' style={{width: '200px'}} disabled={verifyBtn} onClick={this.handleVerifyBtn}>{verifyNote}</Button>
                   </Form.Group>                  
                 </Form.Field>
+                <Form.Field>
+                  <label>用户名</label>
+                  <Form.Input placeholder='请输入用户名' value={username} onChange={(e) => this.setState({username:e.target.value})}/>
+                </Form.Field>
+                <Form.Field required>
+                  <label>密码</label>
+                  <Form.Input placeholder='请输入密码' type='password' value={password} onChange={(e) => {
+                    this.setState({password:e.target.value});
+                    this.clearWarning();
+                  }} error={passwordValid} onBlur={() => this.setState({passwordLenWarning: password.length < 4 })}/>
+                  {this.state.passwordLenWarning ?<p style={{'color':'red','fontSize':'8px'}}>密码最短长度为4位</p> : <p></p>}
+                </Form.Field>
+                <Form.Field required>
+                  <label>确认密码</label>
+                  <Form.Input placeholder='请重新输入密码' type='password' value={confirmPassword} onBlur={() => this.setState({passwordWarning: password !== confirmPassword })} onChange={(e) =>{
+                     this.setState({confirmPassword:e.target.value});
+                     this.clearWarning();
+                  }} error={passwordConfirmValid}/>
+                  {this.state.passwordWarning ?<p style={{'color':'red','fontSize':'8px'}}>请保持输入的密码一致</p> : <p></p>}
+                </Form.Field>
               </Form>
           </Modal.Content>
           <Modal.Actions>
             <Button color='black' onClick={this.handleClose}>
               取消
             </Button>
-            <Button positive icon='checkmark' labelPosition='right' content="注册" onClick={this.registerHandle} />
+            <PreferencesModal />
           </Modal.Actions>
       </Modal>
     )

@@ -75,13 +75,15 @@ class Home extends Component {
           password:password
         }
       }).then(function(res){
-        window.$wsCache.set("username", username, {
-            exp: 60 * 60
-        });
-        $this.setState({
-          loginModalOpen: false,
-          isLogin: true
-        })
+        if(res != null){
+            window.$wsCache.set("username", username, {
+                exp: 60 * 60
+            });
+            $this.setState({
+              loginModalOpen: false,
+              isLogin: true
+            })
+        }
       })
     }
 
