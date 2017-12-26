@@ -107,7 +107,7 @@ class Home extends Component {
 
     handleLoginOut = () => {
       const $this = this;
-      axios.get('/account/logout').then(function(res){
+      axios.get('/account/logout/api').then(function(res){
         window.$wsCache.delete('username');
         $this.setState({isLogin:false});
         $this.props.history.push('/');

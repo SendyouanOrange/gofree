@@ -485,7 +485,7 @@ gofree_mock.onPost('/account/login/api').reply(200,{
 });
 
 //注销
-gofree_mock.onGet('/account/logout').reply(200,{
+gofree_mock.onGet('/account/logout/api').reply(200,{
   "code": 200,
     "msg": "账号已注销",
     "result":[]
