@@ -158,10 +158,8 @@ export default class RegisterModal extends Component {
               </Form>
           </Modal.Content>
           <Modal.Actions>
-            <Button color='black' onClick={this.handleClose}>
-              取消
-            </Button>
-            <Button icon='checkmark' color='green' labelPosition='right' content="注册" onClick={this._registerHandle} />
+            <Button content='取消' onClick={this.handleClose}/>
+            <Button color='green' content="注册" onClick={this._registerHandle} />
           </Modal.Actions>
       </Modal>
       </div>

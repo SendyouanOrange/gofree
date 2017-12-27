@@ -52,12 +52,16 @@ class Home extends Component {
     handleTypeChange = (e, { value }) => this.setState({ formType:value })
 
     handleFormSubmit = () => {
-      const {formType,formStartDay,formEndDay,formDes} = this.state;
-      let path = {
-          pathname: '/lines',
-          data:{ type: formType,start:formStartDay,end:formEndDay,des:formDes }
-      };
-      this.props.history.push(path);
+      const {isLogin,formType,formStartDay,formEndDay,formDes} = this.state;
+      if(!isLogin){
+        this.setState({loginModalOpen:true});
+      }else {
+        let path = {
+            pathname: '/lines',
+            data:{ type: formType,start:formStartDay,end:formEndDay,des:formDes }
+        };
+        this.props.history.push(path);
+      }
     }
 
     handleDesChange = (value) => this.setState({formDes:value})
@@ -67,6 +71,8 @@ class Home extends Component {
     closeLoginModal = () => this.setState({loginModalOpen:false})
 
     closeRegisterModal = () => this.setState({registerModalOpen:false})
+
+    switchHandle = () => this.setState({loginModalOpen:false,registerModalOpen:true})
 
     loginHandle = (username,password) => {
       const $this = this;
@@ -108,9 +114,17 @@ class Home extends Component {
     finalRegisterHandle = (ids) => {
       const $this = this;
       const {registerMeta} = this.state;
-      console.log("ssss",ids);
-      console.log("meta",registerMeta);
-      this.setState({preferencesModalOpen:false});
+      console.log("selectedIs",ids);
+      console.log("registerMeta",registerMeta);
+      
+      window.$wsCache.set("username", registerMeta.username, {
+          exp: 60 * 60
+      });
+      this.setState({
+        preferencesModalOpen: false,
+        isLogin: true
+      });
+      //TODO:发送请求
       // axios({
       //   method: 'post',
       //   url:'/account/register/api',
@@ -298,7 +312,7 @@ class Home extends Component {
         {/**视频模态框**/}
         {videoModalOpen ? <VideoModal modalOpen={true} videoUrl={videoUrl} closeVideoModal={this.closeVideoModal} />:null}
         {/**登录模态框**/}
-        {loginModalOpen ? <LoginModal modalOpen={true} closeLoginModal={this.closeLoginModal} loginHandle={this.loginHandle} /> :null}
+        {loginModalOpen ? <LoginModal modalOpen={true} closeLoginModal={this.closeLoginModal} loginHandle={this.loginHandle} switchHandle={this.switchHandle}/> :null}
         {/**注册模态框**/}
         {registerModalOpen ? <RegisterModal modalOpen={true} closeRegisterModal={this.closeRegisterModal} registerHandle={this.registerHandle} /> :null}
         {/**偏好模态框**/}

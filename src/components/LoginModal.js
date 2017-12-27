@@ -40,6 +40,8 @@ export default class LoginModal extends Component {
     }
   }
 
+  _switchHandle = () => this.props.switchHandle();
+
   render() {
     const {modalOpen,username,password,usernameValid,passwordValid} = this.state;
     return (
@@ -69,10 +71,9 @@ export default class LoginModal extends Component {
               </Form>
           </Modal.Content>
           <Modal.Actions>
-            <Button color='black' onClick={this.handleClose}>
-              取消
-            </Button>
-            <Button positive icon='checkmark' labelPosition='right' content="登录" onClick={this._loginHandle} />
+            <Button content='取消' onClick={this.handleClose} />
+            <Button content="新用户注册" basic color='green' onClick={this._switchHandle} />
+            <Button content="登录" color='green' onClick={this._loginHandle} />
           </Modal.Actions>
       </Modal>
     )
