@@ -1,23 +1,39 @@
 import React, { Component } from 'react'
 import { Button, Icon, Modal } from 'semantic-ui-react'
+import axios from '../util/axios.js';
+import gofree_mock from '../mock/gofree_mock.js';
 
 class PreferencesModal extends Component {
-  state = { open: false }
+  constructor(props){
+    super(props);
 
-  open = () => this.setState({ open: true })
-  close = () => this.setState({ open: false })
+    this.state = {
+      modalOpen: this.props.modalOpen,
+      items:[],
+      ids:[]
+    }
+  }
+
+  componentDidMount() {
+    axios.get('/get-personal-rec-list').then(function(res){
+      console.log(res);
+    })
+  }
+
+  close = () => {
+    const {ids} = this.state;
+    this.props.finalRegisterHandle(ids);
+  }
 
   render() {
-    const { open } = this.state
+    const { modalOpen } = this.state
 
     return (
       <Modal
         dimmer={false}
-        open={open}
-        onOpen={this.open}
+        open={modalOpen}
         onClose={this.close}
         size='small'
-        trigger={<Button icon='checkmark' labelPosition='right' content="注册" />}
       >
         <Modal.Header>选择你喜欢的目的地</Modal.Header>
         <Modal.Content>

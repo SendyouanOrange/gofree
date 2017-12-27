@@ -3,7 +3,6 @@ import { Button,Modal,Embed,Form,Message} from 'semantic-ui-react'
 import axios from '../util/axios.js';
 import gofree_mock from '../mock/gofree_mock.js';
 
-import PreferencesModal from '../components/PreferencesModal.js';
 
 export default class RegisterModal extends Component {
   constructor(props){
@@ -24,7 +23,8 @@ export default class RegisterModal extends Component {
       phoneWarning: false,
       passwordLenWarning: false,
       verifyNote: '获取验证码',
-      verifyBtn: true
+      verifyBtn: true,
+      preferencesModalOpen:false
     }
 
     // gofree_mock.restore();
@@ -34,7 +34,6 @@ export default class RegisterModal extends Component {
 
   handleClose = () => {
     this.props.closeRegisterModal();
-    this.setState({ modalOpen: false })
   }
 
   clearWarning = () => {
@@ -68,13 +67,19 @@ export default class RegisterModal extends Component {
           verifyBtn: true,
           verifyNote: time-- + "s"
         });
-        setTimeout(function() {  
+        this.timeoutvar = setTimeout(function() {  
             $this.countDown(time)
         },1000);
     }  
   }
 
-  registerHandle = () => {
+  componentWillUnmount(){
+      if (this.timeoutvar) {
+          clearTimeout(this.timeoutvar)
+      }
+  }
+
+  _registerHandle = () => {
     const {username,password,confirmPassword,phone,verifyCode} = this.state;
     if(password === ''|| confirmPassword === '' || phone === '' || verifyCode === ''){
         this.setState({
@@ -99,6 +104,7 @@ export default class RegisterModal extends Component {
   render() {
     const {phoneWarning,verifyNote,verifyBtn,modalOpen,username,password,confirmPassword,phone,verifyCode,usernameValid,passwordValid,passwordConfirmValid,phoneValid,verifyCodeValid,passwordWarning} = this.state;
     return (
+      <div>
       <Modal
         open={modalOpen}
         size='tiny'
@@ -155,9 +161,10 @@ export default class RegisterModal extends Component {
             <Button color='black' onClick={this.handleClose}>
               取消
             </Button>
-            <PreferencesModal />
+            <Button icon='checkmark' color='green' labelPosition='right' content="注册" onClick={this._registerHandle} />
           </Modal.Actions>
       </Modal>
+      </div>
     )
   }
 }

@@ -18,7 +18,6 @@ export default class LoginModal extends Component {
 
   handleClose = () => {
     this.props.closeLoginModal();
-    this.setState({ modalOpen: false })
   }
 
   clearWarning = () => {

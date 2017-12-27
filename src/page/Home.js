@@ -12,6 +12,7 @@ import AutoSuggest from '../components/AutoSuggest.js';
 import VideoModal from '../components/VideoModal.js';
 import LoginModal from '../components/LoginModal.js';
 import RegisterModal from '../components/RegisterModal.js';
+import PreferencesModal from '../components/PreferencesModal.js';
 
 import {citys} from '../data/city.js';
 import {MONTHS,WEEKDAYS_LONG,WEEKDAYS_SHORT} from '../data/date.js';
@@ -32,7 +33,9 @@ class Home extends Component {
           videoModalOpen: false,
           videoUrl: '',
           loginModalOpen:false,
-          registerModalOpen:false
+          registerModalOpen:false,
+          preferencesModalOpen:false,
+          registerMeta:{}
         };
 
         if(window.$wsCache.get('username')) {
@@ -87,22 +90,48 @@ class Home extends Component {
       })
     }
 
-    registerHandle(username,password,phone,verifyCode){
+    registerHandle = (username,password,phone,verifyCode) => {
+        const $this = this;
+        const obj = {
+          "username":username,
+          "password":password,
+          "phone":phone,
+          "verifyCode":verifyCode
+        };
+        this.setState({
+          registerMeta:obj,
+          preferencesModalOpen: true,
+          registerModalOpen:false
+        });
+    }
+
+    finalRegisterHandle = (ids) => {
       const $this = this;
-      axios({
-        method: 'post',
-        url:'/account/register/api',
-        data: {
-          username: username,
-          password: password,
-          confirm: password,
-          phone: phone,
-          veri_code: verifyCode,
-          email:''
-        }
-      }).then(function(res){
-        console.log(res);
-      })
+      const {registerMeta} = this.state;
+      console.log("ssss",ids);
+      console.log("meta",registerMeta);
+      this.setState({preferencesModalOpen:false});
+      // axios({
+      //   method: 'post',
+      //   url:'/account/register/api',
+      //   data: {
+      //     username: username,
+      //     password: password,
+      //     confirm: password,
+      //     phone: phone,
+      //     veri_code: verifyCode,
+      //     email:''
+      //   }
+      // }).then(function(res){
+      //   if(res != null){
+      //     window.$wsCache.set("username", username, {
+      //         exp: 60 * 60
+      //     });
+      //     $this.setState({
+      //       isLogin: true
+      //     })
+      //   }
+      // })
     }
 
     handleLoginOut = () => {
@@ -119,7 +148,7 @@ class Home extends Component {
     handleRegister = () => this.setState({registerModalOpen:true})
      
     render() {
-        const {isLogin,visible,activeMenu,formType,videoModalOpen,videoUrl,loginModalOpen,registerModalOpen} = this.state
+        const {preferencesModalOpen,isLogin,visible,activeMenu,formType,videoModalOpen,videoUrl,loginModalOpen,registerModalOpen} = this.state
         
 
         return (
@@ -272,6 +301,8 @@ class Home extends Component {
         {loginModalOpen ? <LoginModal modalOpen={true} closeLoginModal={this.closeLoginModal} loginHandle={this.loginHandle} /> :null}
         {/**注册模态框**/}
         {registerModalOpen ? <RegisterModal modalOpen={true} closeRegisterModal={this.closeRegisterModal} registerHandle={this.registerHandle} /> :null}
+        {/**偏好模态框**/}
+        {preferencesModalOpen ?<PreferencesModal modalOpen={true} finalRegisterHandle={this.finalRegisterHandle}/> : null}
         <Footer/>
       </div>
         )
