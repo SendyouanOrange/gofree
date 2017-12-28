@@ -133,6 +133,10 @@ body {
 
 
 /**路线**/
+.line_loading_div {
+  height: 600px;
+}
+
 .recline_body {
   background-color: #F6F6F6;
 }

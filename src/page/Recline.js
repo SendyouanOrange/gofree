@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Menu,Container,Grid,Header,Icon,Image,Label,List,Statistic,Message,Popup} from 'semantic-ui-react';
+import { Button, Menu,Container,Grid,Header,Icon,Image,Label,List,Statistic,Message,Popup,Dimmer,Loader} from 'semantic-ui-react';
 import {withRouter,Redirect} from 'react-router-dom';
 import axios from '../util/axios.js';
 import gofree_mock from '../mock/gofree_mock.js';
@@ -30,7 +30,8 @@ class Recline extends Component {
           places: [],
           lines: [],
           mapChangeFlag: 0,
-          type: ''
+          type: '',
+          isLineOk:false
         };
     }
 
@@ -55,6 +56,7 @@ class Recline extends Component {
       const {type,start,end,destination} = this.state;
       axios.get('/get-line',{params:{type: type,destination:destination,startTime:start,endTime:end}})
             .then(function(response) {
+              response['isLineOk'] = true;
               $this.setState(response);
             });
     }
@@ -197,19 +199,34 @@ class Recline extends Component {
                       </div>
                     </Grid.Column>
                   </Grid.Row>
-                  <Grid.Row className="line_grid_row">
-                    <Grid.Column width={9}>
-                      {places.map((item,idx) => (
-                        <div key={idx}>
-                          <PlaceDiv item={item} idx={idx} orderId={this.state.id} changePlace={this.changePlace} refreshList={this.refreshList}/>
-                          {this.renderLine(idx)}
-                        </div>     
-                      ))}
-                    </Grid.Column>
-                    <Grid.Column width={7}>
-                      {this.renderMap()}
-                    </Grid.Column>
-                  </Grid.Row>
+                  {
+                    this.state.isLineOk ? 
+                    (
+                      <Grid.Row className="line_grid_row">
+                        <Grid.Column width={9}>
+                          {places.map((item,idx) => (
+                            <div key={idx}>
+                              <PlaceDiv item={item} idx={idx} orderId={this.state.id} changePlace={this.changePlace} refreshList={this.refreshList}/>
+                              {this.renderLine(idx)}
+                            </div>     
+                          ))}
+                        </Grid.Column>
+                        <Grid.Column width={7}>
+                          {this.renderMap()}
+                        </Grid.Column>
+                      </Grid.Row>
+                    )
+                    :
+                    (
+                      <Grid.Row className="line_grid_row line_loading_div">
+                        <Grid.Column width={16}>
+                          <Dimmer active inverted className="line_loading">
+                              <Loader size='big'><span style={{color:'#99A3A4'}}>定制路线生成中，请稍后</span></Loader>
+                          </Dimmer>
+                        </Grid.Column>
+                      </Grid.Row>
+                    )
+                  }
               </Grid>
             </div>
           </div>
