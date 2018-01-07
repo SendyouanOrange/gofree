@@ -44,7 +44,7 @@ class Home extends Component {
           this.state ={isLogin:false};
         }
 
-        // gofree_mock.restore();
+        gofree_mock.restore();
     }
 
     handleItemClick = (e, { index }) => this.setState({ activeMenu: index })
