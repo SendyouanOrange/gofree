@@ -35,7 +35,7 @@ class Home extends Component {
           loginModalOpen:false,
           registerModalOpen:false,
           preferencesModalOpen:false,
-          registerMeta:{}
+          userId:0
         };
 
         if(window.$wsCache.get('username')) {
@@ -98,54 +98,58 @@ class Home extends Component {
 
     registerHandle = (username,password,phone,verifyCode) => {
         const $this = this;
-        const obj = {
-          "username":username,
-          "password":password,
-          "phone":phone,
-          "verifyCode":verifyCode
-        };
-        this.setState({
-          registerMeta:obj,
-          preferencesModalOpen: true,
-          registerModalOpen:false
-        });
+        
+        axios({
+            method: 'post',
+            url:'/account/register/api',
+            data: {
+              username: username,
+              password: password,
+              confirm: password,
+              phone: phone,
+              veri_code: verifyCode,
+              email:''
+            }
+        }).then(function(res){
+            window.$wsCache.set("username", username, {
+              exp: 60 * 60
+            });
+            console.log(res.result);
+            $this.setState({
+              userId:res.result.id,
+              preferencesModalOpen: true,
+              registerModalOpen:false
+            });
+        })
     }
 
     finalRegisterHandle = (ids) => {
       const $this = this;
-      const {registerMeta} = this.state;
+      const {userId} = this.state;
       console.log("selectedIs",ids);
-      console.log("registerMeta",registerMeta);
+      console.log("userId",userId);
+      let viewIds = '';
+      for(var i = 0;i<ids.length;i++){
+          if(i == ids.length - 1){
+            viewIds += ids[i]
+          }else {
+            viewIds += ids[i] + '@';
+          }     
+      }
       
-      window.$wsCache.set("username", registerMeta.username, {
-          exp: 60 * 60
-      });
-      this.setState({
-        preferencesModalOpen: false,
-        isLogin: true
-      });
-      //TODO:发送请求
-      // axios({
-      //   method: 'post',
-      //   url:'/account/register/api',
-      //   data: {
-      //     username: username,
-      //     password: password,
-      //     confirm: password,
-      //     phone: phone,
-      //     veri_code: verifyCode,
-      //     email:''
-      //   }
-      // }).then(function(res){
-      //   if(res != null){
-      //     window.$wsCache.set("username", username, {
-      //         exp: 60 * 60
-      //     });
-      //     $this.setState({
-      //       isLogin: true
-      //     })
-      //   }
-      // })
+      axios({
+          method: 'post',
+          url:'/persona/setLikePlaces',
+          data: {
+            user_id:userId,
+            view_ids:viewIds
+          }
+      }).then(function(res){
+          $this.setState({
+            preferencesModalOpen: false,
+            isLogin: true
+          });
+      })
     }
 
     handleLoginOut = () => {

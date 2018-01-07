@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button,Modal,Embed,Form,Message} from 'semantic-ui-react'
 import axios from '../util/axios.js';
-import gofree_mock from '../mock/gofree_mock.js';
 
 
 export default class RegisterModal extends Component {
@@ -27,7 +26,6 @@ export default class RegisterModal extends Component {
       preferencesModalOpen:false
     }
 
-    // gofree_mock.restore();
   }
 
   handleOpen = () => this.setState({ modalOpen: true })

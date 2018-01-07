@@ -3,68 +3,78 @@ import MockAdapter from 'axios-mock-adapter';
 
 var gofree_mock = new MockAdapter(axios);
 
-gofree_mock.onGet('/get-personal-rec-list').reply(200,{
+
+gofree_mock.onGet('/persona/getCandidatePlaces/3301/').reply(200,{
   "code": 200,
   "msg": "成功",
-  "rec": [
+  "result": [
     {
-      "id": 1,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
     },  
     {
-      "id": 2,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },   
+    {
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
     },  
     {
-      "id": 3,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    },
-        {
-      "id": 12,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    },
-        {
-      "id": 13,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    },
-        {
-      "id": 14,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    },
-        {
-      "id": 16,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    },
-        {
-      "id": 10,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    },
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },  
     {
-      "id": 4,
-      "name": "西湖",
-      "description": "未到西湖，未到杭州",
-      "url": "http://ojtlrnjhy.bkt.clouddn.com/2017-12-08-img_1.jpg"
-    }
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },  
+    {
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },  
+    {
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },  
+    {
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },  
+    {
+      "city_id":3301,
+      "main_pic":"http://n2-q.mafengwo.net/s4/M00/0B/70/wKgBwU_GEQWnYEmEAAkfeHDilKw82.jpeg?imageMogr2%2Fthumbnail%2F%21192x130r%2Fgravity%2FCenter%2Fcrop%2F%21192x130%2Fquality%2F100",
+      "id":1,
+      "cmt_num":9799,
+      "name":"杭州西湖"
+    },  
   ]
 });
 
-gofree_mock.onPost('/post-personal-submit').reply(200,{
+gofree_mock.onPost('/persona/getFirstPreference').reply(200,{
   "code":200,
   "msg": '提交成功'
 })
@@ -510,7 +520,7 @@ gofree_mock.onGet('/account/veri_sms/api').reply(200, {
 gofree_mock.onPost('/account/register/api').reply(200,{
    "code": 200,
    "msg": "注册成功",
-   "result":[]
+   "result":{"id":1}
 });
 
 //登录
@@ -523,9 +533,9 @@ gofree_mock.onPost('/account/login/api').reply(200,{
 
 //注销
 gofree_mock.onGet('/account/logout/api').reply(200,{
-  "code": 200,
-    "msg": "账号已注销",
-    "result":[]
+   "code": 200,
+   "msg": "账号已注销",
+   "result":[]
 });
 
 

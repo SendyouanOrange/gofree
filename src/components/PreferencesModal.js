@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Icon, Modal,Grid,Card,Image} from 'semantic-ui-react'
 import axios from '../util/axios.js';
-import gofree_mock from '../mock/gofree_mock.js';
 
 class PreferencesModal extends Component {
   constructor(props){
@@ -15,8 +14,8 @@ class PreferencesModal extends Component {
 
   componentDidMount() {
     const $this = this;
-    axios.get('/get-personal-rec-list').then(function(res){
-      let _rec = res.rec;
+    axios.get('/persona/getCandidatePlaces/3301/').then(function(res){
+      let _rec = res.result;
       _rec.map((item,idx) => item['isSelected'] = false);
       $this.setState({
         items:_rec
@@ -62,13 +61,12 @@ class PreferencesModal extends Component {
               {items.map((item,idx) => (
                   <Grid.Column key={idx} className="preference_card" onClick={this.handleSelect.bind(this,idx)}>
                       <Card>
-                        <Image src={item.url} />
+                        <Image src={item.main_pic} />
                         <Card.Content>
                           <Card.Header>
                             {item.name}  {item.isSelected ?<Icon name='check circle outline' style={{'fontSize': '1.1em'}} color='green' /> :null}
                           </Card.Header>
                           <Card.Description>
-                            {item.description}
                           </Card.Description>
                         </Card.Content>
                       </Card>
