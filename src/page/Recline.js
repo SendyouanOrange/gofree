@@ -6,6 +6,7 @@ import gofree_mock from '../mock/gofree_mock.js';
 
 import BaiduMap from '../components/BaiduMap.js';
 import PlaceDiv from '../components/PlaceDiv.js';
+import Loading from "../components/Loading";
 
 let viewPng = require("../images/view.png");
 let hotelPng = require("../images/hotel.png");
@@ -35,26 +36,31 @@ class Recline extends Component {
         };
     }
 
-    componentWillMount() {
-      if(this.props.location.data == null){
-        //TODO:重定向注释打开
-        // this.props.history.push('/');
-      }else {
-        const {type,start,end,des} = this.props.location.data;
-        this.setState({
-          type:type,
-          start:start,
-          end: end,
-          destination: des
-        });
-        console.log(this.props.location.data);
-      }
-    }
+    // componentWillMount() {
+    //   if(!this.props.location.data){
+    //     //TODO:重定向注释打开
+    //     // this.props.history.push('/');
+    //   }else {
+    //     const {type,start,end,des} =  this.props.match.params;
+    //     this.setState({
+    //       type:type,
+    //       start:start,
+    //       end: end,
+    //       destination: des
+    //     });
+    //     console.log(this.props.location.data);
+    //   }
+    // }
 
     componentDidMount() {
-      const $this = this;
-      const {type,start,end,destination} = this.state;
-      axios.get('/get-line',{params:{type: type,destination:destination,startTime:start,endTime:end}})
+      let $this = this;
+      let state=this.state;
+      let params=this.props.match.params;
+	    state.type=params.type;
+	    state.start=new Date(parseInt(params.startTime)).format('yyyyMMdd');
+	    state.end=new Date(parseInt(params.endTime)).format('yyyyMMdd');
+	    state.destination=params.destination;
+      axios.get('/persona/recommendSchedule/3301/start/'+state.start+'/end/'+state.end)
             .then(function(response) {
               response['isLineOk'] = true;
               $this.setState(response);
@@ -216,16 +222,7 @@ class Recline extends Component {
                         </Grid.Column>
                       </Grid.Row>
                     )
-                    :
-                    (
-                      <Grid.Row className="line_grid_row line_loading_div">
-                        <Grid.Column width={16}>
-                          <Dimmer active inverted className="line_loading">
-                              <Loader size='big'><span style={{color:'#99A3A4'}}>定制路线生成中，请稍后</span></Loader>
-                          </Dimmer>
-                        </Grid.Column>
-                      </Grid.Row>
-                    )
+                    :<Loading tip="定制路线生成中，请稍后"/>
                   }
               </Grid>
             </div>

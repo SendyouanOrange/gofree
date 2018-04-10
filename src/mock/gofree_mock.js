@@ -88,10 +88,10 @@ gofree_mock.onGet('/get-line').reply(function(config){
           "msg": '',
           /**地图数据**/
           "map": {
-            "centerP": [
-              "x": 116.404,
-              "y": 39.915
-            ],
+            "centerP": {
+	            "x": 116.404,
+	            "y": 39.915
+            },
             "points": [
               {
                 "x": 116.301934,
@@ -119,7 +119,7 @@ gofree_mock.onGet('/get-line').reply(function(config){
               }
             ]
           },
-          /**总览信息**/
+	      /**总览信息**/
           "id": 1,
           "typeName": "民俗特色",
           "destination": "杭州",
@@ -368,10 +368,7 @@ gofree_mock.onPost('/refresh-all').reply(200,{
   "msg":'',
   /**地图数据**/
   "map": {
-    "centerP": [
-      "x": 116.404,
-      "y": 39.915
-    ],
+    "centerP": {"x": 116.404,"y": 39.915},
     "points": [
       {
         "x": 116.301934,

@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import { Button,Modal,Embed,Form} from 'semantic-ui-react'
 
+const m_style={
+	position:'absolute',
+	top:'70%',
+	left:'50%',
+	transform:'translate(-50%,-50%)'
+};
+
 export default class LoginModal extends Component {
   constructor(props){
     super(props);
@@ -30,10 +37,10 @@ export default class LoginModal extends Component {
 
   _loginHandle = () => {
     const {username,password} = this.state;
-    if(username === '' || password === ''){
+    if(!username|| !password){
         this.setState({
-          usernameValid:username === '',
-          passwordValid:password === ''
+          usernameValid:!username,
+          passwordValid:!password
         });
     }else {
       this.props.loginHandle(username,password);
@@ -45,10 +52,10 @@ export default class LoginModal extends Component {
   render() {
     const {modalOpen,username,password,usernameValid,passwordValid} = this.state;
     return (
-      <Modal
-        open={modalOpen}
-        size='tiny'
-      >
+      <Modal style={m_style}
+             dimmer="blurring"
+             open={modalOpen}
+             size='tiny'>
           <Modal.Header>
             登录
           </Modal.Header>
